@@ -147,6 +147,11 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+# venv
+.venv/
+
+# venv
+server/server/db.sqlite3
 
 # pytype static type analyzer
 .pytype/

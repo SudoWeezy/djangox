@@ -1,0 +1,17 @@
+{% extends "main/base.html" %}
+
+{% block title %}Home{% endblock %}
+{% block header %}Header Random Dog Image{% endblock %}
+
+{% block content %}
+<button hx-get="/app/dog_picture" hx-target="#result" hx-swap="innerHTML">Fetch Dog Image</button>
+<div id="result" class="result-container"></div>
+
+<button hx-get="/app/random_user" hx-target="#user-result" hx-swap="innerHTML">Fetch Random User</button>
+<div id="user-result" class="result-container"></div>
+
+<button hx-get="/app/pie_chart" hx-target="#chart-result" hx-swap="innerHTML">Load Pie Chart</button>
+<div id="chart-result" class="result-container"></div>
+{% endblock %}
+
+{% block footer %}FOOTER Random Dog Image{% endblock %}
