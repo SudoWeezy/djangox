@@ -3,17 +3,16 @@ from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth import login, logout
 from django.contrib.auth.forms import AuthenticationForm
-
-
 import requests
 import logging
 from ..forms import BlogForm, RegisterForm
 from ..models import Blog
-from .decorators import htmx_required
+from .decorators import htmx_required, url_pattern
 
 logger = logging.getLogger(__name__)
 
 @htmx_required
+@url_pattern('register/')
 def register(request):
     if request.method == 'POST':
         form = RegisterForm(request.POST)
@@ -25,7 +24,8 @@ def register(request):
         form = RegisterForm()
     return render(request, 'partials/auth/register.html', {'form': form})
 
-
+@htmx_required
+@url_pattern('user_login/')
 def user_login(request):
     if request.method == 'POST':
         form = AuthenticationForm(request, data=request.POST)
@@ -40,6 +40,16 @@ def user_login(request):
     return render(request, 'partials/auth/login.html', {'form': form, 'next': next_url})
 
 @htmx_required
+@url_pattern('user_logout/')
+def user_logout(request):
+    if request.method == 'POST':
+        logout(request)
+        next_url = request.POST.get('next', 'home')
+        print(next_url)
+        return redirect(next_url)
+
+@htmx_required
+@url_pattern('login_options/')
 def login_options(request):
     if request.method == 'GET':
         next_url = request.GET.get('next')
@@ -48,13 +58,8 @@ def login_options(request):
     return HttpResponse("login_options", status=404)
 
 
-def user_logout(request):
-    if request.method == 'POST':
-        logout(request)
-        next_url = request.POST.get('next', 'home')
-        return redirect(next_url)
-
 @htmx_required
+@url_pattern('dog_picture/')
 def dog_picture(request):
     try:
         response = requests.get('https://dog.ceo/api/breeds/image/random')
@@ -68,6 +73,7 @@ def dog_picture(request):
         return HttpResponse("Failed to fetch dog image", status=500)
 
 @htmx_required
+@url_pattern('random_user/')
 def random_user(request):
     try:
         response = requests.get('https://randomuser.me/api/')
@@ -81,6 +87,7 @@ def random_user(request):
         return HttpResponse("Failed to fetch user data", status=500)
     
 @htmx_required
+@url_pattern('blog_create/')
 def blog_create(request):
     if request.method == 'POST':
         form = BlogForm(request.POST)
@@ -94,6 +101,7 @@ def blog_create(request):
     return HttpResponse("blog_create", status=404)
 
 @htmx_required
+@url_pattern('blog_delete/<int:pk>/')
 def blog_delete(request, pk):
     blog = get_object_or_404(Blog, pk=pk)
     print("request == " + request.method)

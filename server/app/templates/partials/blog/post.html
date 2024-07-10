@@ -4,6 +4,5 @@
     <div class="blog-content">
         {{ blog.content|linebreaks }}
     </div>
-    <button hx-get="{% url 'blog_delete' blog.pk %}" hx-target="#delete-blog-modal .modal-content" hx-trigger="click" class="btn btn-secondary">Delete</button>
-
+    <button hx-get="{% url 'blog_delete' blog.pk %}" hx-target="#delete-blog-modal .modal-content" class="btn btn-secondary">Delete</button>
 </div>

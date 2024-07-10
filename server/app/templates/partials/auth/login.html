@@ -1,4 +1,4 @@
-<form id="login-form" method="post" action="{% url 'login' %}"  hx-target="body" style="display: inline;">
+<form id="login-form" method="post" hx-post="{% url 'user_login' %}"  hx-target="body" style="display: inline;">
     {% csrf_token %}
     {{ form.as_p }}
     <input type="hidden" name="next" value="{{ next }}">

@@ -1,5 +1,5 @@
 <div id="auth-login" class="">
     <h2>Login</h2>
-    <button hx-get="{% url 'login' %}" hx-target="#auth-login" hx-swap="innerHTML"  name="next" value="{{ next }}" >Login</button>
+    <button hx-get="{% url 'user_login' %}" hx-target="#auth-login" hx-swap="innerHTML"  name="next" value="{{ next }}" >Login</button>
     <button hx-get="{% url 'register' %}" hx-target="#auth-login" hx-swap="innerHTML">Register</button>
 </div>

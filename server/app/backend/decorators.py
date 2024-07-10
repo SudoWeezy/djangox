@@ -9,3 +9,8 @@ def htmx_required(view_func):
         return view_func(request, *args, **kwargs)
     return _wrapped_view
 
+def url_pattern(pattern):
+    def decorator(view_func):
+        view_func.url_pattern = pattern
+        return view_func
+    return decorator

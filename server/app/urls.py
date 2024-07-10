@@ -12,3 +12,4 @@ urlpatterns = [
     path("blog_category_2/", views.blog_category_2, name="blog_category_2"),
     path("", views.index, name='index'),
 ]
+

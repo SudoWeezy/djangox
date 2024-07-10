@@ -3,6 +3,8 @@ from django.shortcuts import render
 from django.db import connection
 from .models import Blog
 
+
+
 def blog(request):
     # Get the list of tables in the database
     table_names = connection.introspection.table_names()

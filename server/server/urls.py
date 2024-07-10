@@ -14,12 +14,27 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from django.conf import settings
+from django.conf.urls.static import static
+
 from django.contrib import admin
 from django.urls import include, path
-from app.views import index
+from django.shortcuts import redirect
+
+def custom_404_view(request, exception):
+    return redirect('/')
+
 
 urlpatterns = [
     path("", include("app.urls")),
     path("api/", include("app.backend.api")),    
     path("admin/", admin.site.urls),
 ]
+
+handler404 = custom_404_view
+
+
+
+# Add this to serve static files in production (for testing purposes)
+if not settings.DEBUG:
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
