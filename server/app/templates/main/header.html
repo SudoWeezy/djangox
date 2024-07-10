@@ -1,4 +1,26 @@
 <!-- header.html -->
 <header>
-    <h1>{% block header %}Header{% endblock %}</h1>
+    <div class="header-container">
+        <div class="header-left">
+            <h1><a href="/">My Website</a></h1>
+        </div>
+        <nav class="header-center">
+            <ul>
+                <li><a href="{% url 'home' %}">Home</a></li>
+                <li><a href="{% url 'blog' %}">Blog</a>
+                    <ul>
+                        <li><a href="{% url 'blog_category_1' %}">Category 1</a></li>
+                        <li><a href="{% url 'blog_category_2' %}">Category 2</a></li>
+                    </ul>
+                </li>
+                <li><a href="{% url 'about' %}">About</a></li>
+                <li><a href="{% url 'events' %}">Events</a></li>
+            </ul>
+        </nav>
+        <div class="header-right">
+            <input type="text" placeholder="Search">
+            <button>Login</button>
+            <button>Settings</button>
+        </div>
+    </div>
 </header>

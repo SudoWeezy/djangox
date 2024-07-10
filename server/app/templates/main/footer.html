@@ -1,4 +1,38 @@
 <!-- footer.html -->
 <footer>
-    {% block footer %}Footer{% endblock %}
+    <div class="footer-container">
+        <div class="footer-section">
+            <h2>About Us</h2>
+            <p>We are a company dedicated to providing the best services and products to our customers.</p>
+        </div>
+        <div class="footer-section">
+            <h2>Navigation</h2>
+            <ul>
+                <li><a href="{% url 'home' %}">Home</a></li>
+                <li><a href="{% url 'blog' %}">Blog</a></li>
+                <li><a href="{% url 'about' %}">About</a></li>
+                <li><a href="{% url 'events' %}">Events</a></li>
+            </ul>
+        </div>
+        <div class="footer-section">
+            <h2>Contact Us</h2>
+            <ul>
+                <li>Email: contact@example.com</li>
+                <li>Phone: (123) 456-7890</li>
+                <li>Address: 123 Main St, Anytown, USA</li>
+            </ul>
+        </div>
+        <div class="footer-section">
+            <h2>Follow Us</h2>
+            <ul class="social-media">
+                <li><a href="https://facebook.com">Facebook</a></li>
+                <li><a href="https://twitter.com">Twitter</a></li>
+                <li><a href="https://instagram.com">Instagram</a></li>
+                <li><a href="https://linkedin.com">LinkedIn</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>&copy; 2024 My Website. All rights reserved.</p>
+    </div>
 </footer>

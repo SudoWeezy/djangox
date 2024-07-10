@@ -1,0 +1,9 @@
+<div id="blog-{{ blog.pk }}"  class="blog-post">
+    <h2>{{ blog.title }}</h2>
+    <p><em>by {{ blog.author }} on {{ blog.created_at|date:"F j, Y" }}</em></p>
+    <div class="blog-content">
+        {{ blog.content|linebreaks }}
+    </div>
+    <button hx-get="{% url 'blog_delete' blog.pk %}" hx-target="#delete-blog-modal .modal-content" hx-trigger="click" class="btn btn-secondary">Delete</button>
+
+</div>

@@ -1,11 +1,14 @@
 from django.urls import path
-
 from . import views
 
 urlpatterns = [
-    path("", views.index, name="index"),
-    path("hello_world", views.hello_world, name="hello_world"),
-    path("dog_picture", views.dog_picture, name="dog_picture"),
-    path('random_user/', views.random_user, name='random_user'),
-    path('pie_chart/', views.pie_chart, name='pie_chart'),
+    path("blog/", views.blog, name="blog"),
+
+
+    path("home/", views.home, name="home"),
+    path("about/", views.about, name="about"),
+    path("events/", views.events, name="events"),
+    path("blog_category_1/", views.blog_category_1, name="blog_category_1"),
+    path("blog_category_2/", views.blog_category_2, name="blog_category_2"),
+    path("", views.index, name='index'),
 ]
