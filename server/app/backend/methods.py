@@ -1,13 +1,58 @@
 from django.template.loader import render_to_string
-from .decorators import htmx_required
 from django.http import HttpResponse
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib.auth import login, logout
+from django.contrib.auth.forms import AuthenticationForm
+
+
 import requests
 import logging
-from ..forms import BlogForm
+from ..forms import BlogForm, RegisterForm
 from ..models import Blog
+from .decorators import htmx_required
 
 logger = logging.getLogger(__name__)
+
+@htmx_required
+def register(request):
+    if request.method == 'POST':
+        form = RegisterForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            return HttpResponse("Registration successful")
+    else:
+        form = RegisterForm()
+    return render(request, 'partials/auth/register.html', {'form': form})
+
+
+def user_login(request):
+    if request.method == 'POST':
+        form = AuthenticationForm(request, data=request.POST)
+        if form.is_valid():
+            user = form.get_user()
+            login(request, user)
+            next_url = request.POST.get('next', 'home')
+            return redirect(next_url)
+    else:
+        next_url = request.GET.get('next', '/')
+        form = AuthenticationForm()
+    return render(request, 'partials/auth/login.html', {'form': form, 'next': next_url})
+
+@htmx_required
+def login_options(request):
+    if request.method == 'GET':
+        next_url = request.GET.get('next')
+        print(next_url)
+        return render(request, 'partials/auth/login_options.html', {'next': next_url})
+    return HttpResponse("login_options", status=404)
+
+
+def user_logout(request):
+    if request.method == 'POST':
+        logout(request)
+        next_url = request.POST.get('next', 'home')
+        return redirect(next_url)
 
 @htmx_required
 def dog_picture(request):
@@ -41,14 +86,11 @@ def blog_create(request):
         form = BlogForm(request.POST)
         if form.is_valid():
             blog = form.save()
-            return render(request, 'partials/blog_post.html', {'blog': blog})  # Render partial template with the new blog post
-
+            return render(request, 'partials/blog/post.html', {'blog': blog})  # Render partial template with the new blog post
     else:
         form = BlogForm()
-    
     if request.method == 'GET':
-        return render(request, 'partials/blog_create_form.html', {'form': form})
-    
+        return render(request, 'partials/blog/create_form.html', {'form': form})
     return HttpResponse("blog_create", status=404)
 
 @htmx_required
@@ -59,6 +101,6 @@ def blog_delete(request, pk):
         blog.delete()
         return HttpResponse(status=204)
     if request.method == 'GET':
-        return render(request, 'partials/blog_delete_confirm.html', {'blog': blog})
+        return render(request, 'partials/blog/delete_confirm.html', {'blog': blog})
 
     return HttpResponse("blog_delete", status=404)

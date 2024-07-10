@@ -2,7 +2,6 @@
 
 {% block content %}
     <h1>Blog</h1>
-    
     <div class="button-container">
         <button hx-get="{% url 'blog_create' %}" hx-target="#create-blog-modal .modal-content" hx-trigger="click" class="btn btn-primary">Create New Post</button>
     </div>
@@ -11,64 +10,16 @@
             <p>No blog posts available.</p>
         {% else %}
             {% for blog in blogs %}
-                {% include 'partials/blog_post.html' %}
+                {% include 'partials/blog/post.html' %}
             {% endfor %}
         {% endif %}
     </div>
 
     <!-- Modal for creating blog post -->
-    <div id="create-blog-modal" class="modal" style="display: none;">
-        <div class="modal-content">
-            <button class="modal-close" onclick="document.getElementById('create-blog-modal').style.display='none'">&times;</button>
-        </div>
-    </div>
+    {% include "components/modal.html" with modal_id="create-blog-modal" %}
 
     <!-- Modal for deleting blog post -->
-    <div id="delete-blog-modal" class="modal" style="display: none;">
-        <div class="modal-content">
-            <button class="modal-close" onclick="document.getElementById('delete-blog-modal').style.display='none'">&times;</button>
-        </div>
-    </div>
-    <!-- CSRF Token Script -->
-    <script>
-        document.addEventListener('htmx:configRequest', (event) => {
+    {% include "components/modal.html" with modal_id="delete-blog-modal" %}
 
-            if (document.querySelector('[name=csrfmiddlewaretoken]') !== null){
-                const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
-                event.detail.headers['X-CSRFToken'] = csrfToken;
-            }
-        });
-        htmx.on("htmx:afterSwap", (e) => {
-            console.log("AfterSwap ", e.detail.elt)
-            console.log("AfterSwap target ", e.detail.target)
-            if (e.detail.target.closest('.modal-content')) {
-                e.detail.target.closest('.modal').style.display = 'flex';
-            }
-        });
-
-        htmx.on("htmx:afterRequest", (e) => {
-            if (e.detail.successful) {
-                console.log("SUCESS")
-                console.log("request config",e.detail.requestConfig)
-                console.log("request config className",e.detail.requestConfig.target.className)
-            }
-            if (e.detail.successful){
-                if(e.detail.requestConfig.triggeringEvent.type === 'submit'){
-                    if (e.detail.requestConfig.verb === "delete") {
-                        var targetId = e.detail.target.id;
-                        console.log(targetId)
-                        document.getElementById(targetId).remove();
-                    }
-                    if (e.detail.requestConfig.verb === "post") {
-                        if (e.detail.requestConfig.path == "/api/blog_create"){
-                            console.log("Blog Creation Success")
-                        }
-                    }
-                }
-            }
-
-
-
-        });
-    </script>
+    {% include 'partials/blog/js/script.html' %}
 {% endblock %}

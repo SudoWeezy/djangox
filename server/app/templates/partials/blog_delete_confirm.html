@@ -1,6 +1,0 @@
-<form method="post" hx-delete="{% url 'blog_delete' blog.pk %}" hx-target="#blog-{{ blog.pk }}" hx-swap="delete" onsubmit="document.getElementById('delete-blog-modal').style.display='none'">
-    {% csrf_token %}
-    <p>Are you sure you want to delete this blog post?</p>
-    <button type="submit" class="btn btn-primary">Delete</button>
-    <button type="button" class="btn btn-secondary" onclick="document.getElementById('delete-blog-modal').style.display='none'">Cancel</button>
-</form>

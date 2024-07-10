@@ -1,0 +1,5 @@
+<form id="register-form" method="post" hx-post="{% url 'register' %}" hx-target="#auth-login" hx-swap="innerHTML">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Register</button>
+</form>
