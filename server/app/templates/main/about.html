@@ -7,7 +7,13 @@
     <title>{% block title %}About{% endblock %}</title>
     <script src="https://unpkg.com/htmx.org@1.9.12/dist/htmx.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="//unpkg.com/alpinejs" defer></script>
+    <!-- <script src="//unpkg.com/alpinejs" defer></script> -->
+     
+    <!-- Alpine Plugins -->
+    <!-- <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/morph@3.x.x/dist/cdn.min.js"></script> -->
+    
+    <!-- Alpine Core -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     {% load static %}
     <style>
         [x-cloak] {
@@ -65,7 +71,7 @@
                   From: "opacity-100 translate-y-0"
                   To: "opacity-0 translate-y-1"
               -->
-                    <div x-show="open" 
+                    <div x-show="open"  x-transition:enter.duration.1500ms x-transition:leave.duration.750ms
                         class="absolute -left-8 top-full z-10 mt-3 w-screen max-w-md overflow-hidden rounded-3xl bg-white shadow-lg ring-1 ring-gray-900/5">
 
                         <div class="p-4">
