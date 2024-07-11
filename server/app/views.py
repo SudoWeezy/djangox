@@ -17,13 +17,15 @@ def blog(request):
         is_empty = True
 
     return render(request, 'main/blog.html', {'blogs': blogs, 'is_empty': is_empty})
+def home(request):
+   return render(request, 'main/home.html')
+
 
 def about(request):
    return HttpResponse("about")
 def events(request):
    return HttpResponse("events")
-def home(request):
-   return HttpResponse("home")
+
 def blog_category_1(request):
    return HttpResponse("blog_category_1")
 def blog_category_2(request):
