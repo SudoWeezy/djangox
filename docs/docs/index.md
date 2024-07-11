@@ -58,3 +58,8 @@ For full documentation visit [mkdocs.org](https://www.mkdocs.org).
 
 * 500 **Internal Server Error** The server encountered an error when attempting to process the response.
 
+## Libraries
+
+[Alpine.js](https://alpinejs.dev/)
+[Tailwind.css](https://tailwindcss.com/)
+[Django](https://www.djangoproject.com/)

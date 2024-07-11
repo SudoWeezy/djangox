@@ -7,12 +7,12 @@
     <title>{% block title %}About{% endblock %}</title>
     <script src="https://unpkg.com/htmx.org@1.9.12/dist/htmx.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
-
+    <script src="//unpkg.com/alpinejs" defer></script>
     {% load static %}
 </head>
 
-<body class="bg-white dark:bg-slate-800 dark:text-white">
-    <header class="bg-white dark:bg-slate-500">
+<body class="bg-white dark:bg-slate-800 dark:text-white" >
+    <header class="bg-white dark:bg-slate-500" x-data="{ open: false }">
         <nav class="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8" aria-label="Global">
             <div class="flex lg:flex-1">
                 <a href="#" class="-m-1.5 p-1.5 ">
@@ -22,7 +22,7 @@
                 </a>
             </div>
             <div class="flex lg:hidden">
-                <button hx-on:click="toggleDropdown('right-menu')"
+                <button @click="open = ! open "
                     class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700">
                     <span class="sr-only">Open main menu</span>
                     <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
@@ -38,7 +38,7 @@
                         class="flex items-center gap-x-1 text-sm font-semibold leading-6 text-gray-900"
                         aria-expanded="false"> -->
                     <button class="dark:text-white flex items-center gap-x-1 text-sm font-semibold leading-6 text-gray-900"
-                        hx-on:click="toggleDropdown('product-dropdown')">
+                    @click="open = ! open ">
 
                         Product
                         <svg class="h-5 w-5 flex-none text-gray-400" viewBox="0 0 20 20" fill="currentColor"
@@ -59,8 +59,8 @@
                   From: "opacity-100 translate-y-0"
                   To: "opacity-0 translate-y-1"
               -->
-                    <div id="product-dropdown"
-                        class="hidden absolute -left-8 top-full z-10 mt-3 w-screen max-w-md overflow-hidden rounded-3xl bg-white shadow-lg ring-1 ring-gray-900/5">
+                    <div x-show="open"
+                        class="absolute -left-8 top-full z-10 mt-3 w-screen max-w-md overflow-hidden rounded-3xl bg-white shadow-lg ring-1 ring-gray-900/5">
 
                         <div class="p-4">
                             {% for product in products %}
@@ -116,7 +116,7 @@
             </div>
         </nav>
         <!-- Mobile menu, show/hide based on menu open state. -->
-        <div id="right-menu" class="hidden lg:hidden" role="dialog" aria-modal="true">
+        <div x-show="open" class="lg:hidden" role="dialog" aria-modal="true">
             <!-- Background backdrop, show/hide based on slide-over state. -->
             <div class="fixed inset-0 z-10"></div>
             <div
@@ -127,7 +127,7 @@
                         <img class="h-8 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
                             alt="">
                     </a>
-                    <button hx-on:click="toggleDropdown('right-menu')" class="-m-2.5 rounded-md p-2.5 text-gray-700">
+                    <button @click="open = ! open " class="-m-2.5 rounded-md p-2.5 text-gray-700">
                         <span class="sr-only">Close menu</span>
                         <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
                             aria-hidden="true">
@@ -498,10 +498,3 @@
 </body>
 
 </html>
-
-<script>
-    function toggleDropdown(ElementId) {
-        var dropdown = document.getElementById(ElementId);
-        dropdown.classList.toggle('hidden');
-    }
-</script>
