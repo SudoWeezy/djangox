@@ -12,6 +12,11 @@ from .decorators import htmx_required, url_pattern
 logger = logging.getLogger(__name__)
 
 @htmx_required
+@url_pattern('items/')
+def items(request):
+    return HttpResponse("Registration successful")
+
+@htmx_required
 @url_pattern('register/')
 def register(request):
     if request.method == 'POST':
@@ -23,6 +28,7 @@ def register(request):
     else:
         form = RegisterForm()
     return render(request, 'partials/auth/register.html', {'form': form})
+
 
 @htmx_required
 @url_pattern('user_login/')

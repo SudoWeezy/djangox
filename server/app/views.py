@@ -19,10 +19,10 @@ def blog(request):
     return render(request, 'main/blog.html', {'blogs': blogs, 'is_empty': is_empty})
 def home(request):
    return render(request, 'main/home.html')
-
-
 def about(request):
-   return HttpResponse("about")
+   return render(request, 'main/about.html')
+
+
 def events(request):
    return HttpResponse("events")
 
