@@ -1,7 +1,9 @@
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.db import connection
-from .models import Blog
+from .models import Blog, Event
+from .forms import EventForm
+
 
 
 
@@ -9,7 +11,7 @@ def blog(request):
     # Get the list of tables in the database
     table_names = connection.introspection.table_names()
     # Check if the 'appname_blog' table exists
-    if 'app_blog' in table_names:  # Replace 'appname' with your actual app name
+    if 'app_blog' in table_names: 
         blogs = Blog.objects.all().order_by('-created_at')
         is_empty = not blogs.exists()
     else:
@@ -61,11 +63,20 @@ def about(request):
          "description":"Get a better understanding of your traffic"
       },
    ]
-   return render(request, 'main/about.html', {'projects': projects, "roles": roles, 'infos': infos, 'products': products})
+   return render(request, 'pages/about.html', {'projects': projects, "roles": roles, 'infos': infos, 'products': products})
 
 
 def events(request):
-   return HttpResponse("events")
+   if request.method == 'GET':
+      # Get the list of tables in the database
+      table_names = connection.introspection.table_names()
+      # Check if the 'appname_blog' table exists
+      form = EventForm()
+      if 'app_event' in table_names: 
+         events = Event.objects.all().order_by('-created_at')
+      else:
+         events=[]
+      return render(request, 'pages/events.html', {'events': events, 'form': form})
 
 def blog_category_1(request):
    return HttpResponse("blog_category_1")

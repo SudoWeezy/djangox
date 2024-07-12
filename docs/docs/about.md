@@ -1,44 +1,50 @@
-# Eque erat hebes seminaque scilicet exempla in
+# Cheat Sheet
 
-## Scire utque manet
+## Add a new Db object
 
-Lorem markdownum famae dic *vetus*. Excita falsa proterva deducere roger. Mors
-humus viscera iste fecit tersere, iudicium ego *rutilum* stetit, nam postquam
-**agitabilis sententia orbe**: Ioles. Nihil oris ossa petunt? Sua mira, vota,
-secumque considere aut nec oraque consanguineas unus.
+`server/app/models.py`
 
-Crines inpedientibus quod reportat foedere salutem, ignotum altera complexa amas
-quadrupes fecit seu telum. [Haberi voveam per](http://sed.io/) erat. Voluptas
-audit matertera ales aethera abiit summoque. *Iam frigore videri* utque, ritu
-vulnera si territa negat. Vestem umeris hortator de posse inminet gnato, suo nec
-non.
+create class ex:
 
-Phegiaco in vulnera limumque hostile, *flere Pyramus geminas* solus pro domus
-ignarum clademque. Pectora et tetigit vidistis nil Syrtis arte terra grege,
-monet sunt. Nomine agmen et iugales mutat: tibi algae caede fidae; **cur
-victoremque quae** concita anhelitus **absens** a reducit!
+```python
+from django.db import models
 
-## Per fidem venturi vallibus signis Mnemosynen omnes
+class Blog(models.Model):
+    title = models.CharField(max_length=200)
+    author = models.CharField(max_length=100)
+    content = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
-Sonantibus video, Naryciamque Ephyren legebant ait. Cupidine puellae
-Cnosiacaeque cortice ipsae prohibete Mavortis Molossa ulterius quinque, tamen
-inritata **adhuc**. Concubitus ulterius aduncae quercum, at a illic gaudete, hic
-eratque fetu causa nec, qui.
+    def __str__(self):
+        return self.title
+```
 
-Ambobus neque tribus; pro mille capillis vos, per sponte ducentem materna.
-Multis Troiane. Sacri hasta vera fugientia moderante silva densum exequialia
-thalamos sors clivum docebat accipe.
+`server/app/amdin.py`
 
-Leto fronde Dicta quique luctus agnovique tendere dilapsum mentis freta Aurora
-illo more. Mentesque ipsa Minos
-[sua](http://www.quid-cypro.com/cacumineversabat.html), suam successurumque
-putat. Alcyonen turribus velut imperat; est mortale Antissa [pomis
-sustinui](http://quaeriturmagni.com/relicto.html) fontes? Ausoniae tempora.
+import class ex:
 
-Sulcum occurret cernimus contentus certamine tigno casta puerum ea opes ignibus
-transitus gladios crede rerum sequuntur doliturus. Ut in [modo
-iusque](http://exanimes-i.net/) fulvis dumque foedataque Booten ignari recenti
-bracchia unguibus Threiciam! Artis Cyllene, et sola, est superest, cum pars est;
-abripit! Malorum intravit saeva antiquas admovit pars Thaumantidos parta
-sistraque ibat candore periturus simul. Tantum forma ipse poteram nos tamquam
-emicat bis.
+```python
+from .models import Blog
+
+@admin.register(Blog)
+class BlogAdmin(admin.ModelAdmin):
+    list_display = ('title', 'author', 'created_at', 'updated_at')
+    search_fields = ('title', 'author')
+```
+
+`server/app/form.py`
+
+add form
+
+```python
+class BlogForm(forms.ModelForm):
+    class Meta:
+        model = Blog
+        fields = ['title', 'author', 'content']
+```
+
+```console
+python manage.py makemigrations
+python manage.py migrate
+```

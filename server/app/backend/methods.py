@@ -1,15 +1,59 @@
 from django.template.loader import render_to_string
 from django.http import HttpResponse
+from django_htmx.http import HttpResponseClientRedirect
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth import login, logout
 from django.contrib.auth.forms import AuthenticationForm
+from django.views.decorators.csrf import csrf_exempt
 import requests
 import logging
-from ..forms import BlogForm, RegisterForm
-from ..models import Blog
+from ..forms import BlogForm, RegisterForm, EventForm
+from ..models import Blog, Event
 from .decorators import htmx_required, url_pattern
 
 logger = logging.getLogger(__name__)
+
+@htmx_required
+@url_pattern('events/new')
+def events_new(request):
+    if request.method == 'POST':
+        form = EventForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponseClientRedirect("/events")
+    else:
+        form = EventForm()
+    return render(request, 'partials/event/form.html', {'form': form})
+
+@htmx_required
+@url_pattern('event/delete/<int:pk>')
+def event_delete(request, pk):
+    event = get_object_or_404(Event, pk=pk)
+    if request.method == 'DELETE':
+        event.delete()
+        events = Event.objects.all().order_by('-created_at')
+        return render(request, 'partials/event/table.html', {'events': events})
+        # return HttpResponseClientRedirect("/events")
+
+    return HttpResponse("event_delete", status=404)
+
+
+@csrf_exempt
+@htmx_required
+@url_pattern('event/update/<int:pk>')
+def event_update(request, pk):
+    event = get_object_or_404(Event, pk=pk)
+    if request.method == 'POST':
+        new_title = request.POST.get('title', None)
+        print(new_title)
+        if new_title:
+            event.title = new_title
+            event.save()
+            events = Event.objects.all().order_by('-created_at')
+            return render(request, 'partials/event/table.html', {'events': events})
+        else:
+            return HttpResponse("Title not provided", status=400)
+    return HttpResponse("Method not allowed", status=405)
 
 @htmx_required
 @url_pattern('items/')

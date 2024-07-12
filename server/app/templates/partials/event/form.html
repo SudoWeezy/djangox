@@ -1,0 +1,38 @@
+<form hx-post="{% url 'events_new' %}" hx-swap="outerHTML" class="bg-white p-6 rounded-lg shadow-md w-full max-w-lg mx-auto"> 
+    {% csrf_token %}
+    <fieldset>
+        <legend class="text-lg font-semibold mb-4">Event Values</legend>
+        
+        <div class="mb-4">
+            <label for="{{ form.title.id_for_label }}" class="block text-gray-700 font-bold mb-2">{{ form.title.label }}</label>
+            {{ form.title }}
+            {% if form.title.errors %}
+                <div class="text-red-500 text-sm mt-1">
+                    {{ form.title.errors }}
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="mb-4">
+            <label for="{{ form.author.id_for_label }}" class="block text-gray-700 font-bold mb-2">{{ form.author.label }}</label>
+            {{ form.author }}
+            {% if form.author.errors %}
+                <div class="text-red-500 text-sm mt-1">
+                    {{ form.author.errors }}
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="mb-4">
+            <label for="{{ form.date.id_for_label }}" class="block text-gray-700 font-bold mb-2">{{ form.date.label }}</label>
+            {{ form.date }}
+            {% if form.date.errors %}
+                <div class="text-red-500 text-sm mt-1">
+                    {{ form.date.errors }}
+                </div>
+            {% endif %}
+        </div>
+
+        <button class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700">Save</button>
+    </fieldset>
+</form>

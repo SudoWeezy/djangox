@@ -64,3 +64,4 @@ For full documentation visit [mkdocs.org](https://www.mkdocs.org).
 [Tailwind.css](https://tailwindcss.com/)
 [Django](https://www.djangoproject.com/)
 [Htmx](https://v1.htmx.org/)
+[Icon](https://heroicons.com/)
